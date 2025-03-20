@@ -1,6 +1,6 @@
 class Solution {
 public:
     int distinctIntegers(int n) {
-        return n - 1;
+        return n < 2 ? 1 : n - 1;
     }
 };
