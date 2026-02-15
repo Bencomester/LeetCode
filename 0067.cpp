@@ -1,38 +1,28 @@
 class Solution {
 public:
     string addBinary(string a, string b) {
-        int len = max(a.length(), b.length());
+        const short al = a.length();
+        const short bl = b.length();
+        const short len = max(al, bl);
         bool remainder = false;
-        string sum = "";
-        for (int i = 0; i < len; i++) {
-            bool x = bitAt(a, i);
-            bool y = bitAt(b, i);
-            string s = "0";
+        string sum(len, '0');
+        for (short i = 0; i < len; i++) {
+            const bool x = al >= i + 1 && a[al - i - 1] == '1';
+            const bool y = bl >= i + 1 && b[bl - i - 1] == '1';
+            bool one = false;
             if (remainder) {
-                if (x && y) s = "1";
-                else if (x || y) s = "0";
-                else {
+                if (x && y) one = true;
+                else if (!x && !y) {
                     remainder = false;
-                    s = "1";
+                    one = true;
                 }
             } else {
-                if (x && y) {
-                    s = "0";
-                    remainder = true;
-                }
-                else if (x || y) s = "1";
-                else s = "0";
+                if (x && y) remainder = true;
+                else if (x || y) one = true;
             }
-            sum = s + sum;
+            if (one) sum[len - i - 1] = '1';
         }
         if (remainder) sum = "1" + sum;
         return sum;
-    }
-
-    bool bitAt(string str, int i) {
-        i = str.length() - i - 1;
-        if (i < 0) return false;
-        else if (str[i] == '1') return true;
-        return false;
     }
 };
